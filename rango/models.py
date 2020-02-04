@@ -4,7 +4,9 @@ from django.db import models
 # all fields have an auto-increment integer field id
 class Category(models.Model) :
     name = models.CharField(max_length=128, unique=True)
-
+    likes = models.IntegerField(default=0)
+    views = models.IntegerField(default=0)
+    
     class Meta :
         verbose_name_plural = 'Categories'
     

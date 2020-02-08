@@ -77,18 +77,19 @@ def add_category(request) :
 
 def add_page(request, category_name_slug) :
     try:
+        print(category_name_slug)
         category = Category.objects.get(slug=category_name_slug)
         print(category)
     except Category.DoesNotExist:
         category = None
-    
+
     # You cannot add a page to a Category that does not exist...
     if category is None:
         return redirect('/rango/')
         
     form = PageForm()
-
-    if request == 'POST' :
+    
+    if request.method == 'POST' :
         form = PageForm(request.POST)
         if form.is_valid() :
             if category :
@@ -96,6 +97,7 @@ def add_page(request, category_name_slug) :
                 page.category = category
                 page.views = 0
                 page.save()
+                print(page)
                 # reverse looks up URL names in urls.py
                 return redirect(reverse('rango:show_category', kwargs={'category_name_slug':category_name_slug}))
         else :
